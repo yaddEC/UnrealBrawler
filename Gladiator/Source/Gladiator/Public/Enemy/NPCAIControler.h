@@ -13,10 +13,4 @@ UCLASS()
 class GLADIATOR_API ANPCAIControler : public AAIController
 {
 	GENERATED_BODY()
-
-public:
-	ANPCAIControler(FObjectInitializer const& ObjectInitializer = FObjectInitializer::Get());
-	void BeginPlay() override;
-	void OnPossess(APawn* const pawn) override;
-	class UBlackboardComponent* getBlackboard() const;
 };
