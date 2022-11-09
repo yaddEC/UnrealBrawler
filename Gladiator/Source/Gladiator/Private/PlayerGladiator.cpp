@@ -21,32 +21,44 @@ APlayerGladiator::APlayerGladiator()
 
 	
 	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
+	bUseControllerRotationPitch = false;
 
 	
 	GetCharacterMovement()->bOrientRotationToMovement = true;	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); 
-	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+
+	
 
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 300.0f; 	
-	CameraBoom->bUsePawnControlRotation = true; 
+	CameraBoom->bUsePawnControlRotation = false; 
 
 	
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 }
 
+void APlayerGladiator::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 
+
+	{
+		if (!CurrentVelocity.IsZero())
+		{
+			FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
+			SetActorLocation(NewLocation);
+			GetMesh()->SetWorldRotation(CurrentVelocity.ToOrientationRotator());
+		}
+	}
+}
 
 void APlayerGladiator::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	check(PlayerInputComponent);
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerGladiator::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerGladiator::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
@@ -56,12 +68,17 @@ void APlayerGladiator::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void APlayerGladiator::MoveForward(float Axis)
 {
-	AddMovementInput(GetActorForwardVector() * Axis);
+	
+	AddMovementInput(FollowCamera->GetForwardVector() * Axis);
+	//CurrentVelocity.Y = FMath::Clamp(-Axis, -1.0f, 1.0f);
+
 }
 
 void APlayerGladiator::MoveRight(float Axis)
 {
-	AddMovementInput(GetActorRightVector() * Axis);
+	//CurrentVelocity.X = FMath::Clamp(Axis, -1.0f, 1.0f) ;
+	AddMovementInput(FollowCamera->GetRightVector() * Axis);
 }
+
 
 

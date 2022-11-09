@@ -14,6 +14,7 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 {
 	GENERATED_BODY()
 
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
 
@@ -21,6 +22,9 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 		class UCameraComponent* FollowCamera;
 public:
 	APlayerGladiator();
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+		FVector CurrentVelocity;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
@@ -32,7 +36,7 @@ protected:
 	void MoveRight(float Value);
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+	virtual void Tick(float DeltaTime) override;
 public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
