@@ -5,6 +5,6 @@
 
 namespace bb_keys
 {
-	TCHAR const * const targetLocation = TEXT("Tagetlocation");
+	TCHAR const * const targetLocation = TEXT("TargetLocation");
 	
 }

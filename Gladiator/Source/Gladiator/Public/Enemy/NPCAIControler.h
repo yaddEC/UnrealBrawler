@@ -13,4 +13,19 @@ UCLASS()
 class GLADIATOR_API ANPCAIControler : public AAIController
 {
 	GENERATED_BODY()
+public:
+	ANPCAIControler(FObjectInitializer const& objectInitializer = FObjectInitializer::Get());
+	void BeginPlay() override;
+	void OnPossess(APawn* const InPawn) override;
+	class UBlackboardComponent* getBlackboard() const;
+
+private:
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "AI", meta=(AllowPrivateAccess = "true"));
+	class UBehaviorTreeComponent* behaviorTreeComponent;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "AI", meta=(AllowPrivateAccess = "true"));
+	class UBehaviorTree* behaviorTree;
+
+	class UBlackboardComponent* blackboard;
+	
 };
