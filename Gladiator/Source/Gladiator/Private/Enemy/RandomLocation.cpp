@@ -7,6 +7,8 @@
 #include "Enemy/NPCAIControler.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyType_Vector.h"
 #include "Enemy/BB_Keys.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 URandomLocation::URandomLocation(FObjectInitializer const& objectInitializer)
 {
@@ -20,6 +22,7 @@ EBTNodeResult::Type URandomLocation::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 
 	FVector const origin = npc->GetActorLocation();
 	FNavLocation loc;
+
 	
 	UNavigationSystemV1* const navSys = UNavigationSystemV1::GetCurrent(GetWorld());
 	if (navSys->GetRandomPointInNavigableRadius(origin, radius, loc, nullptr))
