@@ -22,6 +22,11 @@ void UGladiatorAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		Speed = OwningActor->GetVelocity().Size();
 		Direction = UE_AnimInstance->CalculateDirection(OwningActor->GetVelocity(), OwningActor->GetActorRotation());
 		APlayerGladiator* OwningChar = Cast<APlayerGladiator>(OwningActor);
+		if (OwningChar)
+		{
+			Guard = OwningChar->isBlocking;
+			Attack = OwningChar->isAttacking;
+		}
 
 	}
 }
