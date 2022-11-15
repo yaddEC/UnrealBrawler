@@ -22,6 +22,8 @@ public:
 	float Speed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Generic")
 	float Direction;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Generic")
+	bool Attack;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Classes")
 	class UAnimInstance* UE_AnimInstance;
 

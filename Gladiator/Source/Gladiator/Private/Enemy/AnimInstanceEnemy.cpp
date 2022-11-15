@@ -2,6 +2,7 @@
 
 
 #include "Enemy/AnimInstanceEnemy.h"
+#include "Enemy/AINPC.h"
 
 UAnimInstanceEnemy::UAnimInstanceEnemy()
 {
@@ -18,5 +19,10 @@ void UAnimInstanceEnemy::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		Speed = OwningActor->GetVelocity().Size();
 		Direction = UE_AnimInstance->CalculateDirection(OwningActor->GetVelocity(), OwningActor->GetActorRotation());
+		AAINPC* npc = Cast<AAINPC>(OwningActor);
+		if(npc)
+		{
+			Attack = npc->isAttacking;
+		}
 	}
 }

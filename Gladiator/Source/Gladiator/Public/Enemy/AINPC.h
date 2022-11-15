@@ -26,10 +26,12 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+	bool isAttacking;
+
 private:
 
 	class UAIPerceptionStimuliSourceComponent* stimulus;
-
 	void setupStimulus();
 
 };
