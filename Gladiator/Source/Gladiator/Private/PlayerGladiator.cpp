@@ -14,7 +14,9 @@
 APlayerGladiator::APlayerGladiator()
 {
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
+	isWalking = false;
 
+	Health = 5;
 
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
@@ -28,7 +30,6 @@ APlayerGladiator::APlayerGladiator()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); 
 	GetCharacterMovement()->AirControl = 0.2f;
 
-	
 
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -39,26 +40,27 @@ APlayerGladiator::APlayerGladiator()
 	
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+
+
+
+	
+
 }
 
 void APlayerGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-
-	{
-		if (!CurrentVelocity.IsZero())
-		{
-			FVector NewLocation = GetActorLocation() + (CurrentVelocity * DeltaTime);
-			SetActorLocation(NewLocation);
-			GetMesh()->SetWorldRotation(CurrentVelocity.ToOrientationRotator());
-		}
-	}
 }
 
 void APlayerGladiator::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	check(PlayerInputComponent);
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerGladiator::Attack);
+	PlayerInputComponent->BindAction("Walking", IE_Pressed, this, &APlayerGladiator::Walk);
+	PlayerInputComponent->BindAction("Walking", IE_Released, this, &APlayerGladiator::StopWalk);
+	PlayerInputComponent->BindAction("Block", IE_Pressed, this, &APlayerGladiator::Block);
+	PlayerInputComponent->BindAction("Block", IE_Released, this, &APlayerGladiator::Unblock);
 	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerGladiator::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerGladiator::MoveRight);
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
@@ -66,19 +68,76 @@ void APlayerGladiator::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 }
 
 
-void APlayerGladiator::MoveForward(float Axis)
-{
-	
-	AddMovementInput(FollowCamera->GetForwardVector() * Axis);
-	//CurrentVelocity.Y = FMath::Clamp(-Axis, -1.0f, 1.0f);
 
+
+void APlayerGladiator::Attack()
+{
+	if (!isBlocking && !isAttacking)
+	{
+		isAttacking = true;
+		FTimerHandle TimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+			{
+				isAttacking = false;
+			}, 1, false);
+	}
+}
+
+void APlayerGladiator::Block()
+{
+	if (!isBlocking && !isAttacking)
+	{
+		UAnimInstance* animInstance = GetMesh()->GetAnimInstance();
+		isBlocking = true;
+	}
+}
+
+void APlayerGladiator::Walk()
+{
+	isWalking = true;
+}
+
+void APlayerGladiator::StopWalk()
+{
+	isWalking = false;
+}
+
+void APlayerGladiator::Unblock()
+{
+	isBlocking = false;
 }
 
 void APlayerGladiator::MoveRight(float Axis)
 {
-	//CurrentVelocity.X = FMath::Clamp(Axis, -1.0f, 1.0f) ;
-	AddMovementInput(FollowCamera->GetRightVector() * Axis);
+	float speed;
+	if (isWalking)
+		speed = 0.5f;
+	else
+		speed = 1;
+	if (!isBlocking && !isAttacking)
+	{
+		AddMovementInput(FollowCamera->GetRightVector() * Axis * speed);
+	}
 }
 
+void APlayerGladiator::MoveForward(float Axis)
+{
 
+	float speed;
+	if (isWalking)
+		speed = 0.5f;
+	else
+		speed = 1;
+	if (!isBlocking && !isAttacking)
+	{
+		AddMovementInput(FollowCamera->GetForwardVector() * Axis * speed);
+	}
+
+
+}
+
+void APlayerGladiator::ApplyDamage(float Damage)
+{
+	Health -= Damage;
+}
 
