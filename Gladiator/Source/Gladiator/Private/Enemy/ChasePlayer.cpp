@@ -3,7 +3,6 @@
 
 #include "Enemy/ChasePlayer.h"
 
-#include "AVEncoder/Public/CodecPacket.h"
 #include "Enemy/NPCAIControler.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
