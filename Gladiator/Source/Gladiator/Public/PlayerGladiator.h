@@ -15,8 +15,11 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 {
 	GENERATED_BODY()
 
-
 	
+
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+		UStaticMeshComponent* bat;
+
 	UPROPERTY(EditAnywhere, Category = "Animation")
 		UAnimSequence* swing;
 

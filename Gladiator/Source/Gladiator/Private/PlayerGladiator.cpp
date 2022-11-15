@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 APlayerGladiator::APlayerGladiator()
@@ -25,7 +26,13 @@ APlayerGladiator::APlayerGladiator()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
 
+	FName weaponSocketName = TEXT("BatSocket");
+
 	
+		
+
+	bat = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bat_mesh"));
+	bat->AttachTo(GetMesh(), weaponSocketName, EAttachLocation::SnapToTarget, true);
 	GetCharacterMovement()->bOrientRotationToMovement = true;	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); 
 	GetCharacterMovement()->AirControl = 0.2f;
@@ -50,6 +57,19 @@ APlayerGladiator::APlayerGladiator()
 void APlayerGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (isAttacking) 
+	{
+		FVector TraceStart = bat->GetSocketLocation("TraceStart");
+		FVector TraceEnd = bat->GetSocketLocation("TraceEnd");
+		FHitResult HitResult;
+		FCollisionQueryParams TraceParam;
+		DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0, 1);
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel1, TraceParam))
+		{
+			//if (HitResult.Actor->IsA<ACharacter>())
+				Debug("coll");
+		}
+	}
 
 }
 
@@ -75,6 +95,7 @@ void APlayerGladiator::Attack()
 	if (!isBlocking && !isAttacking)
 	{
 		isAttacking = true;
+		
 		FTimerHandle TimerHandle;
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 			{
