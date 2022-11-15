@@ -21,10 +21,10 @@ public:
 	class UBlackboardComponent* getBlackboard() const;
 
 private:
-	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "AI", meta=(AllowPrivateAccess = "true"));
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "AI", meta=(AllowPrivateAccess = "true"))
 	class UBehaviorTreeComponent* behaviorTreeComponent;
 
-	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "AI", meta=(AllowPrivateAccess = "true"));
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "AI", meta=(AllowPrivateAccess = "true"))
 	class UBehaviorTree* behaviorTree;
 
 	class UBlackboardComponent* blackboard;
