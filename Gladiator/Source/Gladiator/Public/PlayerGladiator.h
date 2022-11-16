@@ -15,9 +15,9 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 {
 	GENERATED_BODY()
 
-	
 
-	UPROPERTY(EditAnywhere, Category = "Weapon")
+
+		UPROPERTY(EditAnywhere, Category = "Weapon")
 		UStaticMeshComponent* bat;
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
@@ -36,7 +36,7 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 		class UCameraComponent* FollowCamera;
 public:
 	APlayerGladiator();
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
@@ -46,9 +46,15 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		bool isAttacking;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+		float timeAttack;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+		bool canAttack;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		bool isWalking;
 	UPROPERTY(EditAnywhere, Category = State)
 		float Health;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+		FTimerHandle MemberTimerHandle;
 protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
@@ -58,6 +64,7 @@ protected:
 	void Walk();
 	void StopWalk();
 	void ApplyDamage(float Damage);
+	void Timer();
 	void GameOver();
 
 protected:

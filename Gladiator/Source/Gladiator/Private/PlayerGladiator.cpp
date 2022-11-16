@@ -11,69 +11,85 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "DrawDebugHelpers.h"
 
+
 // Sets default values
 APlayerGladiator::APlayerGladiator()
 {
+
+
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	isWalking = false;
-
+	canAttack = true;
 	Health = 5;
 
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 
-	
+
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
 
 	FName weaponSocketName = TEXT("BatSocket");
 
-	
-		
+
+
 
 	bat = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bat_mesh"));
 	bat->AttachTo(GetMesh(), weaponSocketName, EAttachLocation::SnapToTarget, true);
-	GetCharacterMovement()->bOrientRotationToMovement = true;	
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); 
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	GetCharacterMovement()->AirControl = 0.2f;
 
 
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; 	
-	CameraBoom->bUsePawnControlRotation = false; 
+	CameraBoom->TargetArmLength = 300.0f;
+	CameraBoom->bUsePawnControlRotation = false;
 
-	
+
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
 
 
-	
+
 
 }
 
 void APlayerGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (isAttacking) 
+	if (isAttacking)
 	{
+		Debug("%f", timeAttack);
+		canAttack = false;
 		FTimerHandle TimerHandle;
+		if (timeAttack > 48 && timeAttack < 65)
+		{
+			FVector TraceStart = bat->GetSocketLocation("TraceStart");
+			FVector TraceEnd = bat->GetSocketLocation("TraceEnd");
+			FHitResult HitResult;
+			FCollisionQueryParams TraceParam;
+			DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0, 1);
+			if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel1, TraceParam))
+			{
+				//if (HitResult.Actor->IsA<ACharacter>())
+				Debug("coll");
+			}
+		}
+
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 			{
-				FVector TraceStart = bat->GetSocketLocation("TraceStart");
-				FVector TraceEnd = bat->GetSocketLocation("TraceEnd");
-				FHitResult HitResult;
-				FCollisionQueryParams TraceParam;
-				DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0, 1);
-				if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel1, TraceParam))
-				{
-					//if (HitResult.Actor->IsA<ACharacter>())
-					Debug("coll");
-				}
-			}, 0.45, false);
-	
+				canAttack = true;
+			}, 1.2, false);
+
+
+
+	}
+	else
+	{
+		timeAttack = 0;
 	}
 
 }
@@ -92,21 +108,26 @@ void APlayerGladiator::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 }
 
-
+void APlayerGladiator::Timer()
+{
+	timeAttack++;
+}
 
 
 void APlayerGladiator::Attack()
 {
-	if (!isBlocking && !isAttacking)
+	if (!isBlocking && !isAttacking && canAttack)
 	{
 
 		isAttacking = true;
-		
+
 		FTimerHandle TimerHandle;
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 			{
 				isAttacking = false;
 			}, 1, false);
+
+		GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &APlayerGladiator::Timer, 0.01f, true, 0.0f);
 	}
 }
 
