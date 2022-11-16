@@ -7,6 +7,7 @@
 #define DebugWarning(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT(x), __VA_ARGS__));}
 #include "CoreMinimal.h"
 
+
 #include "GameFramework/Character.h"
 #include "PlayerGladiator.generated.h"
 
@@ -16,6 +17,7 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 	GENERATED_BODY()
 
 
+		
 
 		UPROPERTY(EditAnywhere, Category = "Weapon")
 		UStaticMeshComponent* bat;
@@ -64,8 +66,8 @@ protected:
 	void Walk();
 	void StopWalk();
 	void ApplyDamage(float Damage);
-	void Timer();
 	void GameOver();
+	void Timer();
 
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

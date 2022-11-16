@@ -10,6 +10,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Enemy/AINPC.h"
 
 
 // Sets default values
@@ -62,7 +63,7 @@ void APlayerGladiator::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (isAttacking)
 	{
-		Debug("%f", timeAttack);
+		
 		canAttack = false;
 		FTimerHandle TimerHandle;
 		if (timeAttack > 48 && timeAttack < 65)
@@ -75,7 +76,12 @@ void APlayerGladiator::Tick(float DeltaTime)
 			if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel1, TraceParam))
 			{
 				//if (HitResult.Actor->IsA<ACharacter>())
-				Debug("coll");
+				//Debug("coll");
+				if (AAINPC* Character = Cast<AAINPC>(HitResult.Actor))
+				{
+					Character->ApplyDamage(1);
+				}
+				
 			}
 		}
 

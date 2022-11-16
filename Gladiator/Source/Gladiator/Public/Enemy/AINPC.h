@@ -5,6 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AINPC.generated.h"
+#define Debug(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT(x), __VA_ARGS__));}
+#define DebugError(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT(x), __VA_ARGS__));}
+#define DebugWarning(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT(x), __VA_ARGS__));}
+class UMaterialInstanceDynamic;
 
 UCLASS()
 class GLADIATOR_API AAINPC : public ACharacter
@@ -28,12 +32,30 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void ApplyDamage(float Damage);
+	
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+		USkeletalMeshComponent* enemy;
+	
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UMaterialInterface* Material;
+
+	UPROPERTY(EditAnywhere, Category = "State")
+		float hitColor;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
-	bool isAttacking;
+		bool isAttacking;
 
+	UPROPERTY(EditAnywhere, Category = State)
+		float Health;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
+		bool gotHit;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
+		UMaterialInstanceDynamic* DynamicMaterial;
 private:
-
 	class UAIPerceptionStimuliSourceComponent* stimulus;
 	void setupStimulus();
+	void GameOver();
 
 };
