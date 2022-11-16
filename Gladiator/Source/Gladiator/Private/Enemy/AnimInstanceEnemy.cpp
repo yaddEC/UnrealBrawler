@@ -3,6 +3,9 @@
 
 #include "Enemy/AnimInstanceEnemy.h"
 #include "Enemy/AINPC.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Enemy/EnemyCanAttack.h"
+#include "Enemy/BB_Keys.h"
 
 UAnimInstanceEnemy::UAnimInstanceEnemy()
 {
@@ -19,6 +22,7 @@ void UAnimInstanceEnemy::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		Speed = OwningActor->GetVelocity().Size();
 		Direction = UE_AnimInstance->CalculateDirection(OwningActor->GetVelocity(), OwningActor->GetActorRotation());
+		ACharacter* const player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 		AAINPC* npc = Cast<AAINPC>(OwningActor);
 		if(npc)
 		{

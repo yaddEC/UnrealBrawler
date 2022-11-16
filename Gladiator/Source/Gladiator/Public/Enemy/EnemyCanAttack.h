@@ -17,7 +17,7 @@ class GLADIATOR_API UEnemyCanAttack : public UBTService_BlackboardBase
 public:
 
 	UEnemyCanAttack();
-	void OnBecomeRelevant(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 
 private:
 
