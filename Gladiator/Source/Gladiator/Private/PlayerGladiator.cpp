@@ -59,16 +59,21 @@ void APlayerGladiator::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (isAttacking) 
 	{
-		FVector TraceStart = bat->GetSocketLocation("TraceStart");
-		FVector TraceEnd = bat->GetSocketLocation("TraceEnd");
-		FHitResult HitResult;
-		FCollisionQueryParams TraceParam;
-		DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0, 1);
-		if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel1, TraceParam))
-		{
-			//if (HitResult.Actor->IsA<ACharacter>())
-				Debug("coll");
-		}
+		FTimerHandle TimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+			{
+				FVector TraceStart = bat->GetSocketLocation("TraceStart");
+				FVector TraceEnd = bat->GetSocketLocation("TraceEnd");
+				FHitResult HitResult;
+				FCollisionQueryParams TraceParam;
+				DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0, 1);
+				if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel1, TraceParam))
+				{
+					//if (HitResult.Actor->IsA<ACharacter>())
+					Debug("coll");
+				}
+			}, 0.45, false);
+	
 	}
 
 }
@@ -94,6 +99,7 @@ void APlayerGladiator::Attack()
 {
 	if (!isBlocking && !isAttacking)
 	{
+
 		isAttacking = true;
 		
 		FTimerHandle TimerHandle;
