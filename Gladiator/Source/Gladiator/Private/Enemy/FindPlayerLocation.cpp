@@ -24,21 +24,9 @@ EBTNodeResult::Type UFindPlayerLocation::ExecuteTask(UBehaviorTreeComponent& Own
 
 	//Get player location
 	FVector const playerLocation = player->GetActorLocation();
-	if(searchRandom)
-	{
-		FNavLocation loc;
 
-		//Get nav System & Generate Random location near player
-		UNavigationSystemV1* const navSys = UNavigationSystemV1::GetCurrent(GetWorld());
-		if(navSys->GetRandomPointInNavigableRadius(playerLocation, seachRadius, loc, nullptr))
-		{
-			control->getBlackboard()->SetValueAsVector(bb_keys::targetLocation, loc.Location);
-		}
-	}
-	else
-	{
-		control->getBlackboard()->SetValueAsVector(bb_keys::targetLocation, playerLocation);
-	}
+	control->getBlackboard()->SetValueAsVector(bb_keys::targetLocation, playerLocation);
+
 
 	//Sucess
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);

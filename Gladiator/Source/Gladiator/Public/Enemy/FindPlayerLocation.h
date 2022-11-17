@@ -8,7 +8,7 @@
 #include "FindPlayerLocation.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS(Blueprintable)
 class GLADIATOR_API UFindPlayerLocation : public UBTTask_BlackboardBase
@@ -16,15 +16,12 @@ class GLADIATOR_API UFindPlayerLocation : public UBTTask_BlackboardBase
 	GENERATED_BODY()
 
 public:
-	
+
 	UFindPlayerLocation(FObjectInitializer const& objectInitializer);
 
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowProtectedAccess = "true"))
-	bool searchRandom = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowProtectedAccess = "true"))
-	float seachRadius = 150.f;
+		bool searchRandom = false;
 };

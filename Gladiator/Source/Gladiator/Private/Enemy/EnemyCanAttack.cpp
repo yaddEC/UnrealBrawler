@@ -29,10 +29,32 @@ void UEnemyCanAttack::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMem
 
 	//Get player character
 	ACharacter* const player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	
+
 	//BlackBoard bool
-	npc->isAttacking = npc->GetDistanceTo(player) <= AttackRange;
+	FVector const playerLocation = control->getBlackboard()->GetValueAsVector(bb_keys::targetLocation);
+	FVector const npcLocation = control->GetPawn()->GetActorLocation();
+	FVector NpcToPlayer = playerLocation - npcLocation;
+
+	NpcToPlayer.Normalize();
+	FVector un = npc->GetActorForwardVector();
+	float deux = FVector::DotProduct(un, NpcToPlayer);
+	if (deux >= 0.5 && npc->GetDistanceTo(player) <= AttackRange)
+	{
+		npc->isAttacking = true;
+	}
+	if (deux >= 0.5 && npc->GetDistanceTo(player) >= AttackRange)
+	{
+		npc->isAttacking = false;
+	}
+	else if (deux <= 0.5 && npc->GetDistanceTo(player) <= AttackRange)
+	{
+		npc->isAttacking = false;
+	}
 	control->getBlackboard()->SetValueAsBool(bb_keys::enemyAttack, npc->isAttacking);
-	Debug("P = %f", npc->GetDistanceTo(player));
-	Debug("E = %f", AttackRange);
+	//DebugError("Yann = %f", deux);
+
+
+
+	//Debug("P = %f", npc->GetDistanceTo(player));
+	//Debug("E = %f", AttackRange);
 }

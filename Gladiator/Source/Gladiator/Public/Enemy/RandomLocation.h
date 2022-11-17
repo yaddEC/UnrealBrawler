@@ -8,10 +8,11 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BehaviorTreeTypes.h"
 #include "UObject/UObjectGlobals.h"
+#include "Enemy/AINPC.h"
 #include "RandomLocation.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS(Blueprintable)
 class GLADIATOR_API URandomLocation : public UBTTask_BlackboardBase
@@ -25,5 +26,5 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowPrivateAccess = "true"));
 	float radius = 1500.f;
-	
+
 };

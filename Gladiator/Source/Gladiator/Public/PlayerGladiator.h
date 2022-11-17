@@ -57,6 +57,7 @@ public:
 		float Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		FTimerHandle MemberTimerHandle;
+
 protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);

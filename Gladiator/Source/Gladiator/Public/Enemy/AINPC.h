@@ -46,11 +46,15 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		bool isAttacking;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+		bool MovOry;
+
 	UPROPERTY(EditAnywhere, Category = State)
 		float Health;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
 		bool gotHit;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
 		UMaterialInstanceDynamic* DynamicMaterial;
 private:

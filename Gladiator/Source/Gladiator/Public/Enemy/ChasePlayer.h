@@ -9,7 +9,7 @@
 #include "ChasePlayer.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class GLADIATOR_API UChasePlayer : public UBTTask_BlackboardBase
@@ -20,5 +20,8 @@ public:
 	UChasePlayer(FObjectInitializer const& objectInitializer);
 
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Search", meta = (AllowProtectedAccess = "true"))
+		float searchRadius = 150.f;
+
 };
