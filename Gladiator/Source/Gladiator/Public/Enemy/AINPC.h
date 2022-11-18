@@ -57,9 +57,19 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
 		UMaterialInstanceDynamic* DynamicMaterial;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
+		bool Ignore;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+		float timeAttack;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+		FTimerHandle MemberTimerHandle;
 private:
 	class UAIPerceptionStimuliSourceComponent* stimulus;
 	void setupStimulus();
-	void GameOver();
+	void Timer();
+
 
 };

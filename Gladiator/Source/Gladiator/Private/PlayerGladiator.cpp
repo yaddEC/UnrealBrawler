@@ -41,6 +41,9 @@ APlayerGladiator::APlayerGladiator()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	GetCharacterMovement()->AirControl = 0.2f;
 
+	block_cube = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("block_mesh"));
+	block_cube->SetupAttachment(bat);
+
 
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -61,6 +64,7 @@ APlayerGladiator::APlayerGladiator()
 void APlayerGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	Debug("%f",Health);
 	if (isAttacking)
 	{
 		
@@ -143,6 +147,7 @@ void APlayerGladiator::Block()
 	{
 		UAnimInstance* animInstance = GetMesh()->GetAnimInstance();
 		isBlocking = true;
+		block_cube->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
 	}
 }
 
@@ -159,6 +164,7 @@ void APlayerGladiator::StopWalk()
 void APlayerGladiator::Unblock()
 {
 	isBlocking = false;
+	block_cube->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECollisionResponse::ECR_Ignore);
 }
 
 void APlayerGladiator::MoveRight(float Axis)

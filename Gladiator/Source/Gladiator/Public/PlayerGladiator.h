@@ -19,8 +19,11 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 
 		
 
-		UPROPERTY(EditAnywhere, Category = "Weapon")
+	UPROPERTY(EditAnywhere, Category = "Weapon")
 		UStaticMeshComponent* bat;
+	
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+		UStaticMeshComponent* block_cube;
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
 		UAnimSequence* swing;
@@ -57,6 +60,7 @@ public:
 		float Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		FTimerHandle MemberTimerHandle;
+	void ApplyDamage(float Damage);
 
 protected:
 	void MoveForward(float Value);
@@ -66,7 +70,7 @@ protected:
 	void Unblock();
 	void Walk();
 	void StopWalk();
-	void ApplyDamage(float Damage);
+
 	void GameOver();
 	void Timer();
 

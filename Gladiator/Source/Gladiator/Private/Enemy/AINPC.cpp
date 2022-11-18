@@ -12,7 +12,12 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInterface.h"
+#include "DrawDebugHelpers.h"
 #include "PlayerGladiator.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Enemy/NPCAIControler.h"
+
 
 
 // Sets default values
@@ -49,13 +54,76 @@ void AAINPC::BeginPlay()
 			DynamicMaterial = UMaterialInstanceDynamic::Create(Material, NULL);
 			enemy->SetMaterial(0, DynamicMaterial);
 		}
+		GetWorldTimerManager().SetTimer(MemberTimerHandle, this, &AAINPC::Timer, 0.01f, true, 0.0f);
 }
 
 // Called every frame
 void AAINPC::Tick(float DeltaTime)
 {
 	
+
 	Super::Tick(DeltaTime);
+	//Debug("%f", timeAttack);
+	if (isAttacking)
+	{
+		if (timeAttack > 100)
+			timeAttack = 0;
+
+		if (timeAttack > 0 && timeAttack < 45)
+		{
+			FTimerHandle TimerHandle;
+
+			FVector TraceStart = GetMesh()->GetSocketLocation("TraceStart");
+			FVector TraceEnd = GetMesh()->GetSocketLocation("TraceEnd");
+			FHitResult HitResult;
+			FCollisionQueryParams TraceParam;
+			DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0, 1);
+			if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel3, TraceParam) )
+			{
+				//Debug("bat");
+				if (!Ignore)
+				{
+					Ignore = true;
+					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+						{
+							Ignore = false;
+						}, 1, false);
+					//if (HitResult.Actor->IsA<ACharacter>())
+					//Debug("coll");
+				}
+			
+			}
+			if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel2, TraceParam) )
+			{
+				//Debug("player");
+				if (!Ignore)
+				{
+					
+					Ignore = true;
+					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+						{
+							Ignore = false;
+						}, 1, false);
+
+					if (APlayerGladiator* Character = Cast<APlayerGladiator>(HitResult.Actor))
+					{
+						Character->ApplyDamage(1);
+					}
+				}
+				//if (HitResult.Actor->IsA<ACharacter>())
+				//Debug("coll");
+
+
+			}
+		}
+		
+		
+		
+	}
+	else
+	{
+		timeAttack = 0;
+	}
 	if (gotHit && hitColor <= 0)
 	{
 		DynamicMaterial->SetScalarParameterValue(TEXT("Blend"), hitColor);
@@ -74,7 +142,7 @@ void AAINPC::Tick(float DeltaTime)
 	
 	if (Health <= 0)
 	{
-		Destroy();
+		isDead = true
 	}
 
 
@@ -102,4 +170,9 @@ void AAINPC::ApplyDamage(float Damage)
 				gotHit = false;
 			}, 1, false);
 	}
+}
+
+void AAINPC::Timer()
+{
+	timeAttack++;
 }
