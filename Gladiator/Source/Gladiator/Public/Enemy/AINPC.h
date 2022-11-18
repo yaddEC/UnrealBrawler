@@ -44,7 +44,7 @@ public:
 		float hitColor;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
-		bool isAttacking;
+		bool isEnemyAttacking;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		bool MovOry;
@@ -52,8 +52,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = State)
 		float Health;
 	
+	UPROPERTY(EditAnywhere, Category = State)
+	bool isDead;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
 		bool gotHit;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
+		bool isChasing;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
 		UMaterialInstanceDynamic* DynamicMaterial;

@@ -30,14 +30,16 @@ EBTNodeResult::Type URandomLocation::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 
 	AAINPC* npc2 = Cast<AAINPC>(control->GetPawn());
 
-
 	UNavigationSystemV1* const navSys = UNavigationSystemV1::GetCurrent(GetWorld());
 	if (navSys->GetRandomPointInNavigableRadius(origin, radius, loc, nullptr))
 	{
 		control->getBlackboard()->SetValueAsVector(bb_keys::targetLocation, loc.Location);
+		control->getBlackboard()->SetValueAsBool(bb_keys::enemyIsDead, npc2->isDead);
 		if (npc2)
 		{
+			npc2->isChasing = false;
 
+			
 			if (!npc2->MovOry)
 			{
 
@@ -47,8 +49,11 @@ EBTNodeResult::Type URandomLocation::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 					npc2->MovOry = true;
 				}
 			}
+			
 		}
 	}
+
+	
 
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 

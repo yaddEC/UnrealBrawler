@@ -12,6 +12,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInterface.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Enemy/NPCAIControler.h"
 #include "DrawDebugHelpers.h"
 #include "PlayerGladiator.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
@@ -34,6 +37,8 @@ AAINPC::AAINPC()
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	setupStimulus();
+
+	
 }
 
 void AAINPC::setupStimulus()
@@ -64,7 +69,7 @@ void AAINPC::Tick(float DeltaTime)
 
 	Super::Tick(DeltaTime);
 	//Debug("%f", timeAttack);
-	if (isAttacking)
+	if (isEnemyAttacking)
 	{
 		if (timeAttack > 100)
 			timeAttack = 0;
@@ -138,12 +143,12 @@ void AAINPC::Tick(float DeltaTime)
 			hitColor = 0.01f;
 		Debug("mat = %f", hitColor);
 	}
-
-	
 	if (Health <= 0)
 	{
-		isDead = true
+		isDead = true;
 	}
+
+	
 
 
 }

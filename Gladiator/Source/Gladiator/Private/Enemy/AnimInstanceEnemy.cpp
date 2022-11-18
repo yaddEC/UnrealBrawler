@@ -26,7 +26,7 @@ void UAnimInstanceEnemy::NativeUpdateAnimation(float DeltaSeconds)
 		AAINPC* npc = Cast<AAINPC>(OwningActor);
 		if(npc)
 		{
-			Attack = npc->isAttacking;
+			Attack = npc->isEnemyAttacking;
 		}
 	}
 }

@@ -51,7 +51,7 @@ UBlackboardComponent* ANPCAIControler::getBlackboard() const
 
 void ANPCAIControler::TagetDetected(AActor* actor, FAIStimulus const stimulus)
 {
-	getBlackboard()->SetValueAsBool(bb_keys::canSeePlayer, stimulus.WasSuccessfullySensed());
+	getBlackboard()->SetValueAsBool(bb_keys::canSeePlayer, true);
 }
 
 void ANPCAIControler::setupPersceptionSys()

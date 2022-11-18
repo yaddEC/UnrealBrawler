@@ -20,7 +20,7 @@ EBTNodeResult::Type UAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint
 	AAINPC* npc = Cast<AAINPC>(control->GetPawn());
 	if(npc)
 	{
-		npc->isAttacking = true;
+		npc->isEnemyAttacking = true;
 	}
 	
 	
