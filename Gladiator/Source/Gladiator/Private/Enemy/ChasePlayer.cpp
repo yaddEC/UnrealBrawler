@@ -9,6 +9,7 @@
 #include "Enemy/BB_Keys.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Runtime/NavigationSystem/Public/NavigationSystem.h"
+#include "Enemy/AINPC.h"
 #include "Kismet/KismetMathLibrary.h"
 
 #define Debug(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT(x), __VA_ARGS__));}
@@ -34,17 +35,20 @@ EBTNodeResult::Type UChasePlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp,
 
 
 	//Get nav System & Generate Random location near player
-	if (dist > 200)
+	if (dist > 350)
 	{
 		Debug("Enemy dist = %f", dist);
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(control, playerLocation + playerToNpc * 300);
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(control, playerLocation + playerToNpc * 350);
 	}
-	else
+	else if(dist < 300)
 	{
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(control, npcLocation + playerToNpc * 400);
 
 		if (npc)
 		{
+			npc->isChasing = true;
+			control->getBlackboard()->SetValueAsBool(bb_keys::enemyIsDead, npc->isDead);
+			
 			if (npc->MovOry)
 			{
 				if (UCharacterMovementComponent* MC = npc->GetCharacterMovement())
@@ -57,12 +61,10 @@ EBTNodeResult::Type UChasePlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp,
 		}
 	}
 
-	if (!npc->isAttacking)
+	if (!npc->isEnemyAttacking)
 	{
 		npc->SetActorRotation(UKismetMathLibrary::MakeRotFromXZ(-playerToNpc, FVector::UpVector));
 	}
-
-	//control->SetActorRotation(UKismetMathLibrary::MakeRotFromXZ(playerToNpc , FVector::UpVector));
 
 	//Sucess
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);

@@ -1,0 +1,190 @@
+[33mcommit 50585779c92740e75ac78c042686b6ff1fd028b8[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Thu Nov 17 15:42:49 2022 +0100
+
+    Merge
+
+[33mcommit 3eb012e771ccd661d66591e8bef7713bac01437e[m
+Author: Yann DECHAUX <y.dechaux@student.isartdigital.com>
+Date:   Wed Nov 16 16:35:57 2022 +0100
+
+    ennemy collision reaction + health + death
+
+[33mcommit 76764261284ea2d12dc0c87a1e1217a1b36b5494[m
+Author: Yann DECHAUX <y.dechaux@student.isartdigital.com>
+Date:   Wed Nov 16 11:56:17 2022 +0100
+
+    fix animation and collider
+
+[33mcommit d94e68824dd6a2dd71b2263d028c712665bdba61[m
+Merge: 0c4ab32 085180f
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Nov 16 11:46:27 2022 +0100
+
+    Merge
+
+[33mcommit 0c4ab32de767febc96ae1a104b2e4063de0c7a33[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Nov 16 11:44:46 2022 +0100
+
+    AI update
+
+[33mcommit 085180f7e75c7317202fd825160fff5051ca4a66[m
+Author: Yann DECHAUX <y.dechaux@student.isartdigital.com>
+Date:   Wed Nov 16 09:39:08 2022 +0100
+
+    fix cam coll ennemy
+
+[33mcommit 53ec9a3b3c9ea0aef2232591be4231f251012234[m
+Author: Yann Dechaux <y.dechaux@student.isartdigital.com>
+Date:   Wed Nov 16 00:35:11 2022 +0100
+
+    merge + attack coll enemy
+
+[33mcommit 0adf3a80f61be8ddd91a703e72ceb0c54d12ebf2[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Tue Nov 15 18:37:15 2022 +0100
+
+    Attack Animation Enemy
+
+[33mcommit f7671ce58ca71ea5f397baf034196f088f170e0c[m
+Merge: 04354fc 586d2ee
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Tue Nov 15 16:42:55 2022 +0100
+
+    Merge branch 'master' of gitlabstudents.isartintra.com:projets/2022_gp_2026_unreal_gp_2026_unreal_-_brawler-04
+
+[33mcommit 04354fc20776b0a2fc9e702c5ac9181295b3d701[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Tue Nov 15 16:42:51 2022 +0100
+
+    Start Attack Animation Enemy
+
+[33mcommit 586d2eedec74b7eda56054e7d0940f43e34fb2bb[m
+Author: Yann DECHAUX <y.dechaux@student.isartdigital.com>
+Date:   Tue Nov 15 16:21:26 2022 +0100
+
+    new anim + model+ attack + guard + life
+
+[33mcommit 45d99d9b014c7e5e420f49c9a16d7ec214825256[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Tue Nov 15 16:00:13 2022 +0100
+
+    Add AI and Target
+
+[33mcommit 9d8ba41178c20ad7bcad4e0eea570642d8d13357[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Tue Nov 15 15:02:39 2022 +0100
+
+    IA - Errors in compiler!
+
+[33mcommit e4c59f300447de1286000f28f16073485be76881[m
+Merge: 6def01c ed703b2
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Nov 9 16:34:23 2022 +0100
+
+    Merge
+
+[33mcommit 6def01cfad9e970d00de861a6a87f44101ef674c[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Nov 9 16:32:48 2022 +0100
+
+    Add Random Location
+
+[33mcommit ed703b264648a4b894af9756bc03e8332cb92ab0[m
+Author: Yann DECHAUX <y.dechaux@student.isartdigital.com>
+Date:   Wed Nov 9 11:08:29 2022 +0100
+
+    movment fixed + player animation c++ and player model
+
+[33mcommit 952227f21633bd7a04c1943ea6e76585b46ad013[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Nov 9 10:06:00 2022 +0100
+
+    Fix
+
+[33mcommit b35fba911848a2e5a8572db305e9198a70c6e43d[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Nov 9 09:49:59 2022 +0100
+
+    Reset Arena Map + Start AI NPC
+
+[33mcommit c60b7da316e2ccbc73a96b2b2f96c466148e0593[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Fri Oct 28 16:06:10 2022 +0200
+
+    UV
+
+[33mcommit 9f5cbb3a169ef0cfa2a6d1e917c108c91c5926e7[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Oct 26 13:53:46 2022 +0200
+
+    Add Light
+
+[33mcommit 16491657d36e3b03fb88dfe3e9338cbb6b122400[m
+Merge: 28ee245 77e0d0d
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Oct 26 11:36:22 2022 +0200
+
+    Merge
+
+[33mcommit 28ee24548b7dad698be575d33f818a8285bd15bc[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Wed Oct 26 11:29:07 2022 +0200
+
+    Add Arene
+
+[33mcommit 77e0d0dc12bcff6be6557fabcd09e5221648a530[m
+Author: Yann DECHAUX <y.dechaux@student.isartdigital.com>
+Date:   Wed Oct 26 10:31:26 2022 +0200
+
+    Player Movment fixed
+
+[33mcommit ec177a5ff4499873b9958366f8919962305d409a[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Tue Oct 25 16:01:51 2022 +0200
+
+    Add Spawner
+
+[33mcommit c0e296cb30caf674bc8849d29e1e553bc206fa00[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Tue Oct 25 14:13:43 2022 +0200
+
+    Clear file
+
+[33mcommit 6828df137e60e43285260351a68a974fc0f1db10[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Tue Oct 25 13:47:41 2022 +0200
+
+    reload Project
+
+[33mcommit bbc8a70b7bbd8530e2642e7b83a0037da622df1e[m
+Merge: 7fe3301 410c65d
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Mon Oct 24 16:09:42 2022 +0200
+
+    Merge
+
+[33mcommit 7fe3301154c800a80423c28a0dd3b65f02ec37b1[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Mon Oct 24 16:09:14 2022 +0200
+
+    Add Spawner
+
+[33mcommit 410c65dc62b8bcff8d457cebd6b526cba657bcd9[m
+Author: Yann DECHAUX <y.dechaux@student.isartdigital.com>
+Date:   Mon Oct 24 15:57:46 2022 +0200
+
+    Player movement
+
+[33mcommit b35f11aedff0d9b5f943b087461f85c8f9e80867[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Mon Oct 24 14:25:13 2022 +0200
+
+    Add Project
+
+[33mcommit 03d4bd234a55e7d30a09c70cc8d487c6d964aab7[m
+Author: Umut OSMANOGLU <u.osmanoglu@student.isartdigital.com>
+Date:   Mon Oct 24 14:15:59 2022 +0200
+
+    Add Gitgnore
