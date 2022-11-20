@@ -17,8 +17,6 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 	GENERATED_BODY()
 
 
-		
-
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 		UStaticMeshComponent* bat;
 	
@@ -38,6 +36,51 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 		UAnimSequence* death;
 public:
 	APlayerGladiator();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
+		UMaterialInstanceDynamic* DynamicMaterial1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
+		UMaterialInstanceDynamic* DynamicMaterial2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
+		UMaterialInstanceDynamic* DynamicMaterial3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
+		UMaterialInstanceDynamic* DynamicMaterial4;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
+		UMaterialInstanceDynamic* DynamicMaterial5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
+		UMaterialInstanceDynamic* DynamicMaterial6;
+
+	UPROPERTY(EditAnywhere, Category = "Mesh")
+		USkeletalMeshComponent* player;
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UMaterialInterface* Material1;
+	
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UMaterialInterface* Material2;
+	
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UMaterialInterface* Material3;
+	
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UMaterialInterface* Material4;
+	
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UMaterialInterface* Material5;
+	
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UMaterialInterface* Material6;
+
+	UPROPERTY(EditAnywhere, Category = "State")
+		float hitColor;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
+		bool gotHit;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 		float BaseTurnRate;
@@ -76,6 +119,7 @@ protected:
 protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void BeginPlay() override;
 public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }

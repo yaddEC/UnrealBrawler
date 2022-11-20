@@ -10,6 +10,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 #define Debug(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT(x), __VA_ARGS__));}
 #define DebugError(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT(x), __VA_ARGS__));}
@@ -37,9 +38,14 @@ EBTNodeResult::Type URandomLocation::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 		control->getBlackboard()->SetValueAsBool(bb_keys::enemyIsDead, npc2->isDead);
 		if (npc2)
 		{
-			npc2->isChasing = false;
+			if (npc2->isChasing)
+			{
+				npc2->isChasing = false;
+				AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
+				GameMode->ChasingEnemies.Remove(npc2);
+			}
 
-			
+
 			if (!npc2->MovOry)
 			{
 
@@ -49,11 +55,11 @@ EBTNodeResult::Type URandomLocation::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 					npc2->MovOry = true;
 				}
 			}
-			
+
 		}
 	}
 
-	
+
 
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 

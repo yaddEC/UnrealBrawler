@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
 #include "BehaviorTree/BehaviorTreeTypes.h"
+#include "GladiatorGameModeBase.h"
 #include "ChasePlayer.generated.h"
 
 /**

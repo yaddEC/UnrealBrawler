@@ -7,7 +7,7 @@
 #include "Attack.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class GLADIATOR_API UAttack : public UBTTask_BlackboardBase
@@ -18,5 +18,5 @@ public:
 
 	UAttack();
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
-	
+
 };

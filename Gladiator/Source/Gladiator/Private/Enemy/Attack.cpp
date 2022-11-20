@@ -18,12 +18,12 @@ EBTNodeResult::Type UAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint
 {
 	AAIController* const control = OwnerComp.GetAIOwner();
 	AAINPC* npc = Cast<AAINPC>(control->GetPawn());
-	if(npc)
+	if (npc)
 	{
 		npc->isEnemyAttacking = true;
 	}
-	
-	
+
+
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 	return EBTNodeResult::Succeeded;
 }

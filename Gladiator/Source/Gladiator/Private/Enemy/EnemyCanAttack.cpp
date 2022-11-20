@@ -40,7 +40,10 @@ void UEnemyCanAttack::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMem
 	float deux = FVector::DotProduct(un, NpcToPlayer);
 	if (deux >= 0.5 && npc->GetDistanceTo(player) <= AttackRange)
 	{
-		npc->isEnemyAttacking = false;
+		if (npc->willAttack) {
+			npc->isEnemyAttacking = true;		
+		}
+
 	}
 	if (deux >= 0.5 && npc->GetDistanceTo(player) >= AttackRange)
 	{

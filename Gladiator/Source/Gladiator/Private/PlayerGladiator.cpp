@@ -17,7 +17,6 @@
 APlayerGladiator::APlayerGladiator()
 {
 
-
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	isWalking = false;
 	canAttack = true;
@@ -61,13 +60,44 @@ APlayerGladiator::APlayerGladiator()
 
 }
 
+void APlayerGladiator::BeginPlay()
+{
+	Super::BeginPlay();
+
+	player = GetMesh();
+	if (player)
+	{
+		Material1 = player->GetMaterial(0);
+		Material2 = player->GetMaterial(1);
+		Material3 = player->GetMaterial(2);
+		Material4 = player->GetMaterial(3);
+		Material5 = player->GetMaterial(4);
+		Material6 = player->GetMaterial(5);
+		DynamicMaterial1 = UMaterialInstanceDynamic::Create(Material1, NULL);
+		DynamicMaterial2 = UMaterialInstanceDynamic::Create(Material2, NULL);
+		DynamicMaterial3 = UMaterialInstanceDynamic::Create(Material3, NULL);
+		DynamicMaterial4 = UMaterialInstanceDynamic::Create(Material4, NULL);
+		DynamicMaterial5 = UMaterialInstanceDynamic::Create(Material5, NULL);
+		DynamicMaterial6 = UMaterialInstanceDynamic::Create(Material6, NULL);
+		player->SetMaterial(0, DynamicMaterial1);
+		player->SetMaterial(1, DynamicMaterial2);
+		player->SetMaterial(2, DynamicMaterial3);
+		player->SetMaterial(3, DynamicMaterial4);
+		player->SetMaterial(4, DynamicMaterial5);
+		player->SetMaterial(5, DynamicMaterial6);
+	}
+
+}
+
+
 void APlayerGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	Debug("%f",Health);
+
+	//Debug("%f",Health);
 	if (isAttacking)
 	{
-		
+
 		canAttack = false;
 		FTimerHandle TimerHandle;
 		if (timeAttack > 48 && timeAttack < 65)
@@ -85,7 +115,7 @@ void APlayerGladiator::Tick(float DeltaTime)
 				{
 					Character->ApplyDamage(1);
 				}
-				
+
 			}
 		}
 
@@ -93,8 +123,6 @@ void APlayerGladiator::Tick(float DeltaTime)
 			{
 				canAttack = true;
 			}, 1.2, false);
-
-
 
 	}
 	else
@@ -107,6 +135,30 @@ void APlayerGladiator::Tick(float DeltaTime)
 		GetMesh()->SetAnimation(death);
 		GetMesh()->PlayAnimation(death, false);
 		SetActorEnableCollision(false);
+	}
+	if (gotHit && hitColor <= 0)
+	{
+		DynamicMaterial1->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial2->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial3->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial4->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial5->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial6->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		hitColor = 1;
+		Debug("mat = %f", hitColor);
+	}
+	else if (hitColor > 0)
+	{
+		DynamicMaterial1->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial2->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial3->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial4->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial5->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		DynamicMaterial6->SetScalarParameterValue(TEXT("Blend"), hitColor);
+		hitColor -= 0.01f;
+		if (hitColor < 0.01f && gotHit)
+			hitColor = 0.01f;
+		Debug("mat = %f", hitColor);
 	}
 }
 
@@ -154,7 +206,7 @@ void APlayerGladiator::Block()
 		UAnimInstance* animInstance = GetMesh()->GetAnimInstance();
 		isBlocking = true;
 		block_cube->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
-		Health -= 1;
+
 	}
 }
 
@@ -205,6 +257,28 @@ void APlayerGladiator::MoveForward(float Axis)
 
 void APlayerGladiator::ApplyDamage(float Damage)
 {
-	Health -= Damage;
+	if (!gotHit)
+	{
+
+		DynamicMaterial1 = UMaterialInstanceDynamic::Create(Material1, NULL);
+		DynamicMaterial2 = UMaterialInstanceDynamic::Create(Material2, NULL);
+		DynamicMaterial3 = UMaterialInstanceDynamic::Create(Material3, NULL);
+		DynamicMaterial4 = UMaterialInstanceDynamic::Create(Material4, NULL);
+		DynamicMaterial5 = UMaterialInstanceDynamic::Create(Material5, NULL);
+		DynamicMaterial6 = UMaterialInstanceDynamic::Create(Material6, NULL);
+		player->SetMaterial(0, DynamicMaterial1);
+		player->SetMaterial(1, DynamicMaterial2);
+		player->SetMaterial(2, DynamicMaterial3);
+		player->SetMaterial(3, DynamicMaterial4);
+		player->SetMaterial(4, DynamicMaterial5);
+		player->SetMaterial(5, DynamicMaterial6);
+		gotHit = true;
+		Health -= Damage;
+		FTimerHandle TimerHandle;
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+			{
+				gotHit = false;
+			}, 1, false);
+	}
 }
 

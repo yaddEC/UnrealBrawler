@@ -9,6 +9,7 @@
 #include "BehaviorTree/BehaviorTreeTypes.h"
 #include "UObject/UObjectGlobals.h"
 #include "Enemy/AINPC.h"
+#include "GladiatorGameModeBase.h"
 #include "RandomLocation.generated.h"
 
 /**

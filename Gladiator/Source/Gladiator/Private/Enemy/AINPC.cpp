@@ -19,6 +19,7 @@
 #include "PlayerGladiator.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "GladiatorGameModeBase.h"
 #include "Enemy/NPCAIControler.h"
 
 
@@ -69,10 +70,9 @@ void AAINPC::Tick(float DeltaTime)
 
 	Super::Tick(DeltaTime);
 	//Debug("%f", timeAttack);
-	if (isEnemyAttacking)
+	if (isEnemyAttacking && willAttack)
 	{
-		if (timeAttack > 100)
-			timeAttack = 0;
+		
 
 		if (timeAttack > 0 && timeAttack < 45)
 		{
@@ -91,14 +91,18 @@ void AAINPC::Tick(float DeltaTime)
 					Ignore = true;
 					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 						{
+							willAttack = false;
+							isEnemyAttacking = false;
 							Ignore = false;
-						}, 1, false);
+							AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
+							GameMode->enemyIsAttacking = false;
+						}, 0.8, false);
 					//if (HitResult.Actor->IsA<ACharacter>())
 					//Debug("coll");
 				}
 			
 			}
-			if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel2, TraceParam) )
+			else if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel2, TraceParam) )
 			{
 				//Debug("player");
 				if (!Ignore)
@@ -107,8 +111,12 @@ void AAINPC::Tick(float DeltaTime)
 					Ignore = true;
 					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 						{
+							willAttack = false;
+							isEnemyAttacking = false;
 							Ignore = false;
-						}, 1, false);
+							AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
+							GameMode->enemyIsAttacking = false;
+						}, 0.8, false);
 
 					if (APlayerGladiator* Character = Cast<APlayerGladiator>(HitResult.Actor))
 					{
@@ -118,6 +126,24 @@ void AAINPC::Tick(float DeltaTime)
 				//if (HitResult.Actor->IsA<ACharacter>())
 				//Debug("coll");
 
+
+			}
+			else if (timeAttack > 100)
+			{
+				timeAttack = 0;
+				{
+					Ignore = true;
+					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+						{
+							willAttack = false;
+							isEnemyAttacking = false;
+							Ignore = false;
+							AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
+							GameMode->enemyIsAttacking = false;
+						}, 0.8, false);
+					//if (HitResult.Actor->IsA<ACharacter>())
+					//Debug("coll");
+				}
 
 			}
 		}
@@ -149,6 +175,16 @@ void AAINPC::Tick(float DeltaTime)
 		GetMesh()->SetAnimation(death);
 		GetMesh()->PlayAnimation(death, false);
 		SetActorEnableCollision(false);
+		AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
+		if(isChasing)
+		{
+			GameMode->ChasingEnemies.Remove(this);
+		}
+		if (GameMode->enemyIsAttacking || willAttack)
+		{
+			GameMode->enemyIsAttacking = false;
+		}
+
 	}
 
 	

@@ -44,6 +44,9 @@ public:
 		float hitColor;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+		bool willAttack;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		bool isEnemyAttacking;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)

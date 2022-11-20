@@ -59,7 +59,7 @@ void ANPCAIControler::setupPersceptionSys()
 	//Create & Init sight config
 	sightConfig = CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("Sight Config"));
 	SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component")));
-	sightConfig->SightRadius = 500.f;
+	sightConfig->SightRadius = 350.f;
 	sightConfig->LoseSightRadius = sightConfig->SightRadius + 20.f;
 	sightConfig->PeripheralVisionAngleDegrees = 90.f;
 	sightConfig->SetMaxAge(5.f);

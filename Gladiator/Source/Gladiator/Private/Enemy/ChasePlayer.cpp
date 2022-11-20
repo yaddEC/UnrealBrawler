@@ -11,6 +11,7 @@
 #include "Runtime/NavigationSystem/Public/NavigationSystem.h"
 #include "Enemy/AINPC.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
 
 #define Debug(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT(x), __VA_ARGS__));}
 #define DebugError(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT(x), __VA_ARGS__));}
@@ -33,39 +34,61 @@ EBTNodeResult::Type UChasePlayer::ExecuteTask(UBehaviorTreeComponent& OwnerComp,
 	float dist = playerToNpc.Size();
 	playerToNpc.Normalize();
 
-
-	//Get nav System & Generate Random location near player
-	if (dist > 350)
+	if (npc)
 	{
-		Debug("Enemy dist = %f", dist);
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(control, playerLocation + playerToNpc * 350);
-	}
-	else if(dist < 300)
-	{
-		UAIBlueprintHelperLibrary::SimpleMoveToLocation(control, npcLocation + playerToNpc * 400);
-
-		if (npc)
+		if (!npc->isChasing)
 		{
 			npc->isChasing = true;
-			control->getBlackboard()->SetValueAsBool(bb_keys::enemyIsDead, npc->isDead);
-			
-			if (npc->MovOry)
+			AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
+			GameMode->ChasingEnemies.Add(npc);
+		}
+		if (npc->willAttack)
+		{
+			if (dist > 25)
 			{
-				if (UCharacterMovementComponent* MC = npc->GetCharacterMovement())
+				UAIBlueprintHelperLibrary::SimpleMoveToLocation(control, playerLocation + playerToNpc * 80);
+
+			}
+			
+		}
+		else
+		{
+			//Get nav System & Generate Random location near player
+			if (dist > 350)
+			{
+				Debug("Enemy dist = %f", dist);
+				UAIBlueprintHelperLibrary::SimpleMoveToLocation(control, playerLocation + playerToNpc * 350);
+			}
+			else if (dist < 300)
+			{
+				UAIBlueprintHelperLibrary::SimpleMoveToLocation(control, npcLocation + playerToNpc * 400);
+
+
+
+				control->getBlackboard()->SetValueAsBool(bb_keys::enemyIsDead, npc->isDead);
+
+				if (npc->MovOry)
 				{
-					MC->bOrientRotationToMovement = false;
-					npc->MovOry = false;
+					if (UCharacterMovementComponent* MC = npc->GetCharacterMovement())
+					{
+						MC->bOrientRotationToMovement = false;
+						npc->MovOry = false;
+					}
 				}
+
+
 			}
 
+			
 		}
-	}
+		if (!npc->isEnemyAttacking)
+		{
+			npc->SetActorRotation(UKismetMathLibrary::MakeRotFromXZ(-playerToNpc, FVector::UpVector));
+		}
 
-	if (!npc->isEnemyAttacking)
-	{
-		npc->SetActorRotation(UKismetMathLibrary::MakeRotFromXZ(-playerToNpc, FVector::UpVector));
-	}
 
+
+	}
 	//Sucess
 	FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 	return  EBTNodeResult::Succeeded;
