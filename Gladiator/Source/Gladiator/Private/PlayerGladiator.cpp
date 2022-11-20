@@ -101,7 +101,13 @@ void APlayerGladiator::Tick(float DeltaTime)
 	{
 		timeAttack = 0;
 	}
-
+	if (Health <= 0 && !isDead)
+	{
+		isDead = true;
+		GetMesh()->SetAnimation(death);
+		GetMesh()->PlayAnimation(death, false);
+		SetActorEnableCollision(false);
+	}
 }
 
 void APlayerGladiator::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -126,7 +132,7 @@ void APlayerGladiator::Timer()
 
 void APlayerGladiator::Attack()
 {
-	if (!isBlocking && !isAttacking && canAttack)
+	if (!isDead && !isBlocking && !isAttacking && canAttack)
 	{
 
 		isAttacking = true;
@@ -143,11 +149,12 @@ void APlayerGladiator::Attack()
 
 void APlayerGladiator::Block()
 {
-	if (!isBlocking && !isAttacking)
+	if (!isDead && !isBlocking && !isAttacking)
 	{
 		UAnimInstance* animInstance = GetMesh()->GetAnimInstance();
 		isBlocking = true;
 		block_cube->SetCollisionResponseToChannel(ECC_GameTraceChannel3, ECollisionResponse::ECR_Block);
+		Health -= 1;
 	}
 }
 
@@ -174,7 +181,7 @@ void APlayerGladiator::MoveRight(float Axis)
 		speed = 0.5f;
 	else
 		speed = 1;
-	if (!isBlocking && !isAttacking)
+	if (!isDead && !isBlocking && !isAttacking)
 	{
 		AddMovementInput(FollowCamera->GetRightVector() * Axis * speed);
 	}
@@ -188,7 +195,7 @@ void APlayerGladiator::MoveForward(float Axis)
 		speed = 0.5f;
 	else
 		speed = 1;
-	if (!isBlocking && !isAttacking)
+	if (!isDead && !isBlocking && !isAttacking)
 	{
 		AddMovementInput(FollowCamera->GetForwardVector() * Axis * speed);
 	}

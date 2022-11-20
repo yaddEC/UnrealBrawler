@@ -143,9 +143,12 @@ void AAINPC::Tick(float DeltaTime)
 			hitColor = 0.01f;
 		Debug("mat = %f", hitColor);
 	}
-	if (Health <= 0)
+	if (Health <= 0 && !isDead)
 	{
 		isDead = true;
+		GetMesh()->SetAnimation(death);
+		GetMesh()->PlayAnimation(death, false);
+		SetActorEnableCollision(false);
 	}
 
 	

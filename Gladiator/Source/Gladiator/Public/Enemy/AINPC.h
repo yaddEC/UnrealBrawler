@@ -63,6 +63,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
 		UMaterialInstanceDynamic* DynamicMaterial;
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UAnimSequence* death;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
 		bool Ignore;

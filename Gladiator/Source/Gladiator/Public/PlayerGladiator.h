@@ -26,12 +26,6 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 		UStaticMeshComponent* block_cube;
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
-		UAnimSequence* swing;
-
-	UPROPERTY(EditAnywhere, Category = "Animation")
-		UAnimSequence* block;
-
-	UPROPERTY(EditAnywhere, Category = "Animation")
 		UAnimSequence* animBP;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -39,6 +33,9 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+		UAnimSequence* death;
 public:
 	APlayerGladiator();
 
@@ -56,6 +53,8 @@ public:
 		bool canAttack;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		bool isWalking;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
+		bool isDead;
 	UPROPERTY(EditAnywhere, Category = State)
 		float Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
