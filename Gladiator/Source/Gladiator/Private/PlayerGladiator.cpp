@@ -44,7 +44,7 @@ APlayerGladiator::APlayerGladiator()
 
 
 	bat = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bat_mesh"));
-	bat->AttachTo(GetMesh(), weaponSocketName, EAttachLocation::SnapToTarget, true);
+	bat->SetupAttachment(GetMesh(), weaponSocketName);
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 	GetCharacterMovement()->AirControl = 0.2f;
