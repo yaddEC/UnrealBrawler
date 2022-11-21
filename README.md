@@ -17,5 +17,7 @@ A random guy noclips out of reality, and finds himself stuck in a room full of s
 ## Editor
 *(Blueprint generated from C++)*
 Enemies variable --> Assets/Enemy/MyAINPC 
+
 Player variable --> _Main/Blueprints/BP_PlayerGladiator 
+
 Game variable --> _Main/Blueprints/BP_GladiatorGameModeBase 
