@@ -11,19 +11,18 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class GLADIATOR_API UHealthBar : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
 
-	void NativeConstruct() override;
-	void setBarValuePercent(float const value);
+	void SetHealth(float CurrentHealth, float MaxHealth);
 
 protected:
 
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-	UProgressBar* healthValue = nullptr;
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+		class UProgressBar* HealthBar;
 	
 };

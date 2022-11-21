@@ -33,4 +33,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
 		int numberOfEnemiesAlive;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
+		float delayOfAttack;
 };

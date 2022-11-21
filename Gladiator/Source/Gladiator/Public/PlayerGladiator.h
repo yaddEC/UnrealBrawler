@@ -39,6 +39,12 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 public:
 	APlayerGladiator();
 
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class UHealthBar> HealthBarClass;
+
+	UPROPERTY()
+		class UHealthBar* HealthBar;
+
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundBase* deathSound;
 
@@ -133,6 +139,7 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }

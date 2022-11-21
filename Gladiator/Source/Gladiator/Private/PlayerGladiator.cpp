@@ -16,6 +16,8 @@
 #include "Enemy/AINPC.h"
 #include "Sound/SoundBase.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "HealthBar.h"
+#include "Blueprint/UserWidget.h"
 
 
 // Sets default values
@@ -25,12 +27,15 @@ APlayerGladiator::APlayerGladiator()
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	isWalking = false;
 	canAttack = true;
+	
 	MaxHealth = 5;
 	Health = MaxHealth;
 
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 
+	HealthBar = nullptr;
+	HealthBarClass = nullptr;
 
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationPitch = false;
@@ -77,7 +82,15 @@ APlayerGladiator::APlayerGladiator()
 void APlayerGladiator::BeginPlay()
 {
 	Super::BeginPlay();
-
+	if (IsLocallyControlled() && HealthBarClass)
+	{
+		APlayerController* Gladiator = GetController<APlayerController>();
+		check(Gladiator);
+		HealthBar = CreateWidget<UHealthBar>(Gladiator, HealthBarClass);
+		check(HealthBar);
+		HealthBar->AddToPlayerScreen();
+		HealthBar->SetHealth(Health, MaxHealth);
+	}
 	player = GetMesh();
 	if (player)
 	{
@@ -103,6 +116,15 @@ void APlayerGladiator::BeginPlay()
 
 }
 
+void APlayerGladiator::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if (HealthBar)
+	{
+		HealthBar->RemoveFromParent();
+		HealthBar = nullptr;
+	}
+	Super::EndPlay(EndPlayReason);
+}
 
 void APlayerGladiator::Tick(float DeltaTime)
 {
@@ -295,6 +317,7 @@ void APlayerGladiator::ApplyDamage(float Damage)
 		player->SetMaterial(5, DynamicMaterial6);
 		gotHit = true;
 		Health -= Damage;
+		HealthBar->SetHealth(Health, MaxHealth);
 		if(Health>0)
 			UGameplayStatics::SpawnSoundAtLocation(this, painSound, GetActorLocation());
 		FTimerHandle TimerHandle;

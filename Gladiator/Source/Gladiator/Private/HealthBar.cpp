@@ -3,11 +3,9 @@
 
 #include "HealthBar.h"
 
-void UHealthBar::NativeConstruct()
-{
-}
 
-void UHealthBar::setBarValuePercent(float const value)
+void UHealthBar::SetHealth(float CurrentHealth, float MaxHealth)
 {
-	healthValue->SetPercent(value);
+	if(HealthBar)
+		HealthBar->SetPercent(CurrentHealth/MaxHealth);
 }

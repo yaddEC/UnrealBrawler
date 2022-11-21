@@ -13,6 +13,7 @@ AGladiatorGameModeBase::AGladiatorGameModeBase()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
 	numberOfEnemiesAlive = 0;
+	delayOfAttack = 1;
 
 }
 
@@ -44,7 +45,7 @@ void AGladiatorGameModeBase::Tick(float DeltaTime)
 				//Debug("range = %d", range);
 				if (ChasingEnemies.Num() != 0)
 					ChasingEnemies[FMath::RandRange(0, ChasingEnemies.Num() - 1)]->willAttack = true;
-			}, 1, false);
+			}, delayOfAttack, false);
 
 	}
 }
