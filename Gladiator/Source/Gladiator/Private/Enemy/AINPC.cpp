@@ -21,6 +21,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GladiatorGameModeBase.h"
 #include "Enemy/NPCAIControler.h"
+#include "Sound/SoundBase.h"
 
 
 
@@ -89,6 +90,7 @@ void AAINPC::Tick(float DeltaTime)
 				if (!Ignore)
 				{
 					Ignore = true;
+					UGameplayStatics::SpawnSoundAtLocation(this, guardSound, GetActorLocation());
 					GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 						{
 							willAttack = false;
@@ -117,7 +119,7 @@ void AAINPC::Tick(float DeltaTime)
 							AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
 							GameMode->enemyIsAttacking = false;
 						}, 0.8, false);
-
+					UGameplayStatics::SpawnSoundAtLocation(this, impactSound, GetActorLocation());
 					if (APlayerGladiator* Character = Cast<APlayerGladiator>(HitResult.Actor))
 					{
 						Character->ApplyDamage(1);
@@ -172,6 +174,7 @@ void AAINPC::Tick(float DeltaTime)
 	if (Health <= 0 && !isDead)
 	{
 		isDead = true;
+		UGameplayStatics::SpawnSoundAtLocation(this, deathSound, GetActorLocation());
 		GetMesh()->SetAnimation(death);
 		GetMesh()->PlayAnimation(death, false);
 		SetActorEnableCollision(false);
@@ -203,7 +206,7 @@ void AAINPC::ApplyDamage(float Damage)
 {
 	if (!gotHit)
 	{
-
+		UGameplayStatics::SpawnSoundAtLocation(this,  impactSound, GetActorLocation());
 		DynamicMaterial = UMaterialInstanceDynamic::Create(Material, NULL);
 		enemy->SetMaterial(0, DynamicMaterial);
 		gotHit = true;

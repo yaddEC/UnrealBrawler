@@ -22,6 +22,9 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 	virtual void BeginPlay() override;
 public:
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundBase* backgroundSound;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemies")
 		TArray<AAINPC*> ChasingEnemies;
 

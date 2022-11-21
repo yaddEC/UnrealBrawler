@@ -14,6 +14,8 @@
 #include "UObject/ConstructorHelpers.h"
 #include "HealthBar.h"
 #include "Enemy/AINPC.h"
+#include "Sound/SoundBase.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -153,6 +155,7 @@ void APlayerGladiator::Tick(float DeltaTime)
 		GetMesh()->SetAnimation(death);
 		GetMesh()->PlayAnimation(death, false);
 		SetActorEnableCollision(false);
+		UGameplayStatics::SpawnSoundAtLocation(this, deathSound, GetActorLocation());
 	}
 	if (gotHit && hitColor <= 0)
 	{
@@ -206,7 +209,7 @@ void APlayerGladiator::Attack()
 	{
 
 		isAttacking = true;
-
+		UGameplayStatics::SpawnSoundAtLocation(this, swingSound, GetActorLocation());
 		FTimerHandle TimerHandle;
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 			{
@@ -277,7 +280,7 @@ void APlayerGladiator::ApplyDamage(float Damage)
 {
 	if (!gotHit)
 	{
-
+		
 		DynamicMaterial1 = UMaterialInstanceDynamic::Create(Material1, NULL);
 		DynamicMaterial2 = UMaterialInstanceDynamic::Create(Material2, NULL);
 		DynamicMaterial3 = UMaterialInstanceDynamic::Create(Material3, NULL);
@@ -292,6 +295,8 @@ void APlayerGladiator::ApplyDamage(float Damage)
 		player->SetMaterial(5, DynamicMaterial6);
 		gotHit = true;
 		Health -= Damage;
+		if(Health>0)
+			UGameplayStatics::SpawnSoundAtLocation(this, painSound, GetActorLocation());
 		FTimerHandle TimerHandle;
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 			{

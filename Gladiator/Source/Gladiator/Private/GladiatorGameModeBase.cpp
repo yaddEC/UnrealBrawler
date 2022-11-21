@@ -4,6 +4,8 @@
 #include "GladiatorGameModeBase.h"
 #include "EngineUtils.h"
 #include "Math/UnrealMathUtility.h"
+#include "Sound/SoundBase.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 
 AGladiatorGameModeBase::AGladiatorGameModeBase()
@@ -16,6 +18,7 @@ AGladiatorGameModeBase::AGladiatorGameModeBase()
 
 void AGladiatorGameModeBase::BeginPlay()
 {
+	UGameplayStatics::SpawnSound2D(this, backgroundSound);
 	for (TActorIterator<AAINPC> actor(GetWorld()); actor; ++actor)
 	{
 		/*AAINPC* enemy = Cast<AAINPC>(*actor);

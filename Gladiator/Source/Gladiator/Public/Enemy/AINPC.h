@@ -33,6 +33,15 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void ApplyDamage(float Damage);
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundBase* deathSound;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundBase* impactSound;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundBase* guardSound;
 	
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 		USkeletalMeshComponent* enemy;

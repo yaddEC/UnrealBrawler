@@ -34,8 +34,19 @@ class GLADIATOR_API APlayerGladiator : public ACharacter
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
 		UAnimSequence* death;
+
+
 public:
 	APlayerGladiator();
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundBase* deathSound;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundBase* painSound;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+		USoundBase* swingSound;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Animation)
 		UMaterialInstanceDynamic* DynamicMaterial1;
