@@ -99,6 +99,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
 		bool isDead;
 	UPROPERTY(EditAnywhere, Category = State)
+		float MaxHealth;
+	UPROPERTY(EditAnywhere, Category = State)
 		float Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		FTimerHandle MemberTimerHandle;
@@ -123,4 +125,8 @@ protected:
 public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+private:
+
+	class UWidgetComponent* WidgetComponent;
 };

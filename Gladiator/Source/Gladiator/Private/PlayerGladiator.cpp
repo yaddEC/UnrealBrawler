@@ -10,6 +10,9 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Components/WidgetComponent.h"
+#include "UObject/ConstructorHelpers.h"
+#include "HealthBar.h"
 #include "Enemy/AINPC.h"
 
 
@@ -20,7 +23,8 @@ APlayerGladiator::APlayerGladiator()
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	isWalking = false;
 	canAttack = true;
-	Health = 5;
+	MaxHealth = 5;
+	Health = MaxHealth;
 
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
@@ -54,9 +58,17 @@ APlayerGladiator::APlayerGladiator()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 
-
-
-
+	if (WidgetComponent)
+	{
+		WidgetComponent->SetupAttachment(RootComponent);
+		WidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
+		WidgetComponent->SetRelativeLocation(FVector(0.f, 0.f, 85.f));
+		static ConstructorHelpers::FClassFinder<UUserWidget> widgetClass(TEXT("/Game/UI/HealthBarBP"));
+		if (widgetClass.Succeeded())
+		{
+			WidgetComponent->SetWidgetClass(widgetClass.Class);
+		}
+	}
 
 }
 
@@ -93,7 +105,7 @@ void APlayerGladiator::BeginPlay()
 void APlayerGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	//auto const uw = Cast<UHealthBar>(WidgetComponent->GetUserWidgetObject());
 	//Debug("%f",Health);
 	if (isAttacking)
 	{
@@ -129,6 +141,12 @@ void APlayerGladiator::Tick(float DeltaTime)
 	{
 		timeAttack = 0;
 	}
+
+	/*if (uw)
+	{
+		uw->setBarValuePercent(Health / MaxHealth);
+	}*/
+
 	if (Health <= 0 && !isDead)
 	{
 		isDead = true;
