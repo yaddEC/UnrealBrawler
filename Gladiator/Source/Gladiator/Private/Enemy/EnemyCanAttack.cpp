@@ -10,10 +10,6 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Enemy/BB_Keys.h"
 
-#define Debug(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT(x), __VA_ARGS__));}
-#define DebugError(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT(x), __VA_ARGS__));}
-#define DebugWarning(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT(x), __VA_ARGS__));}
-
 UEnemyCanAttack::UEnemyCanAttack()
 {
 	NodeName = TEXT("Enemy Can Attack");
@@ -54,10 +50,4 @@ void UEnemyCanAttack::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMem
 		npc->isEnemyAttacking = false;
 	}
 	control->getBlackboard()->SetValueAsBool(bb_keys::enemyAttack, npc->isEnemyAttacking);
-	//DebugError("Yann = %f", deux);
-
-
-
-	//Debug("P = %f", npc->GetDistanceTo(player));
-	//Debug("E = %f", AttackRange);
 }

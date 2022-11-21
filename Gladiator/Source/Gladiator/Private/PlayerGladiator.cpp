@@ -43,8 +43,6 @@ APlayerGladiator::APlayerGladiator()
 	FName weaponSocketName = TEXT("BatSocket");
 
 
-
-
 	bat = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bat_mesh"));
 	bat->AttachTo(GetMesh(), weaponSocketName, EAttachLocation::SnapToTarget, true);
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -53,7 +51,6 @@ APlayerGladiator::APlayerGladiator()
 
 	block_cube = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("block_mesh"));
 	block_cube->SetupAttachment(bat);
-
 
 
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -129,8 +126,6 @@ void APlayerGladiator::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void APlayerGladiator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//auto const uw = Cast<UHealthBar>(WidgetComponent->GetUserWidgetObject());
-	//Debug("%f",Health);
 	if (isAttacking)
 	{
 
@@ -142,11 +137,8 @@ void APlayerGladiator::Tick(float DeltaTime)
 			FVector TraceEnd = bat->GetSocketLocation("TraceEnd");
 			FHitResult HitResult;
 			FCollisionQueryParams TraceParam;
-			DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0, 1);
 			if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel1, TraceParam))
 			{
-				//if (HitResult.Actor->IsA<ACharacter>())
-				//Debug("coll");
 				if (AAINPC* Character = Cast<AAINPC>(HitResult.Actor))
 				{
 					Character->ApplyDamage(1);
@@ -166,11 +158,6 @@ void APlayerGladiator::Tick(float DeltaTime)
 		timeAttack = 0;
 	}
 
-	/*if (uw)
-	{
-		uw->setBarValuePercent(Health / MaxHealth);
-	}*/
-
 	if (Health <= 0 && !isDead)
 	{
 		isDead = true;
@@ -178,6 +165,10 @@ void APlayerGladiator::Tick(float DeltaTime)
 		GetMesh()->PlayAnimation(death, false);
 		SetActorEnableCollision(false);
 		UGameplayStatics::SpawnSoundAtLocation(this, deathSound, GetActorLocation());
+		GetWorld()->GetTimerManager().SetTimer(MemberTimerHandle2, [&]()
+			{
+				Dead();
+			}, 3.92f, false);
 	}
 	if (gotHit && hitColor <= 0)
 	{
@@ -188,7 +179,6 @@ void APlayerGladiator::Tick(float DeltaTime)
 		DynamicMaterial5->SetScalarParameterValue(TEXT("Blend"), hitColor);
 		DynamicMaterial6->SetScalarParameterValue(TEXT("Blend"), hitColor);
 		hitColor = 1;
-		Debug("mat = %f", hitColor);
 	}
 	else if (hitColor > 0)
 	{
@@ -201,7 +191,6 @@ void APlayerGladiator::Tick(float DeltaTime)
 		hitColor -= 0.01f;
 		if (hitColor < 0.01f && gotHit)
 			hitColor = 0.01f;
-		Debug("mat = %f", hitColor);
 	}
 }
 
@@ -261,6 +250,17 @@ void APlayerGladiator::Walk()
 void APlayerGladiator::StopWalk()
 {
 	isWalking = false;
+}
+
+void APlayerGladiator::Dead()
+{
+
+	if (isDead)
+	{
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		UGameplayStatics::OpenLevel(GetWorld(), "EndMenu");
+	}
+	
 }
 
 void APlayerGladiator::Unblock()

@@ -18,6 +18,7 @@ public:
 	ANPCAIControler(FObjectInitializer const& objectInitializer = FObjectInitializer::Get());
 	void BeginPlay() override;
 	void OnPossess(APawn* const InPawn) override;
+	void OnUnPossess() override;
 	class UBlackboardComponent* getBlackboard() const;
 
 private:

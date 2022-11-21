@@ -2,9 +2,6 @@
 
 #pragma once
 
-#define Debug(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT(x), __VA_ARGS__));}
-#define DebugError(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT(x), __VA_ARGS__));}
-#define DebugWarning(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT(x), __VA_ARGS__));}
 #include "CoreMinimal.h"
 
 
@@ -121,6 +118,8 @@ public:
 		float Health;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
 		FTimerHandle MemberTimerHandle;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Action)
+		FTimerHandle MemberTimerHandle2;
 	void ApplyDamage(float Damage);
 
 protected:
@@ -131,6 +130,7 @@ protected:
 	void Unblock();
 	void Walk();
 	void StopWalk();
+	void Dead();
 
 	void GameOver();
 	void Timer();

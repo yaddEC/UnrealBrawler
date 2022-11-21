@@ -5,9 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AINPC.generated.h"
-#define Debug(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Cyan, FString::Printf(TEXT(x), __VA_ARGS__));}
-#define DebugError(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::Printf(TEXT(x), __VA_ARGS__));}
-#define DebugWarning(x, ...) if(GEngine){GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT(x), __VA_ARGS__));}
+
 class UMaterialInstanceDynamic;
 
 UCLASS()
@@ -19,13 +17,13 @@ public:
 	// Sets default values for this character's properties
 	AAINPC();
 
-	
+
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -42,10 +40,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Sound")
 		USoundBase* guardSound;
-	
+
 	UPROPERTY(EditAnywhere, Category = "Mesh")
 		USkeletalMeshComponent* enemy;
-	
+
 	UPROPERTY(EditAnywhere, Category = "Animation")
 		UMaterialInterface* Material;
 
@@ -63,10 +61,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = State)
 		float Health;
-	
+
 	UPROPERTY(EditAnywhere, Category = State)
-	bool isDead;
-	
+		bool isDead;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
 		bool gotHit;
 
@@ -78,7 +76,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
 		UAnimSequence* death;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = State)
 		bool Ignore;
 
@@ -91,6 +89,4 @@ private:
 	class UAIPerceptionStimuliSourceComponent* stimulus;
 	void setupStimulus();
 	void Timer();
-
-
 };

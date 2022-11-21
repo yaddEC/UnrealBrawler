@@ -44,6 +44,14 @@ void ANPCAIControler::OnPossess(APawn* const InPawn)
 	}
 }
 
+void ANPCAIControler::OnUnPossess()
+{
+	Super::OnUnPossess();
+
+	behaviorTreeComponent->StopTree();
+
+}
+
 UBlackboardComponent* ANPCAIControler::getBlackboard() const
 {
 	return blackboard;

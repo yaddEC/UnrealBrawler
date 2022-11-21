@@ -15,7 +15,6 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Enemy/NPCAIControler.h"
-#include "DrawDebugHelpers.h"
 #include "PlayerGladiator.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -28,9 +27,6 @@
 // Sets default values
 AAINPC::AAINPC()
 {
-
-	
-
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	gotHit = false;
 	Health = 3;
@@ -70,7 +66,6 @@ void AAINPC::Tick(float DeltaTime)
 	
 
 	Super::Tick(DeltaTime);
-	//Debug("%f", timeAttack);
 	if (isEnemyAttacking && willAttack)
 	{
 		
@@ -83,10 +78,8 @@ void AAINPC::Tick(float DeltaTime)
 			FVector TraceEnd = GetMesh()->GetSocketLocation("TraceEnd");
 			FHitResult HitResult;
 			FCollisionQueryParams TraceParam;
-			DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0, 1);
 			if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel3, TraceParam) )
 			{
-				//Debug("bat");
 				if (!Ignore)
 				{
 					Ignore = true;
@@ -99,14 +92,11 @@ void AAINPC::Tick(float DeltaTime)
 							AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
 							GameMode->enemyIsAttacking = false;
 						}, 0.8, false);
-					//if (HitResult.Actor->IsA<ACharacter>())
-					//Debug("coll");
 				}
 			
 			}
 			else if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_GameTraceChannel2, TraceParam) )
 			{
-				//Debug("player");
 				if (!Ignore)
 				{
 					
@@ -125,9 +115,6 @@ void AAINPC::Tick(float DeltaTime)
 						Character->ApplyDamage(1);
 					}
 				}
-				//if (HitResult.Actor->IsA<ACharacter>())
-				//Debug("coll");
-
 
 			}
 			else if (timeAttack > 100)
@@ -143,14 +130,10 @@ void AAINPC::Tick(float DeltaTime)
 							AGladiatorGameModeBase* GameMode = Cast<AGladiatorGameModeBase>(UGameplayStatics::GetGameMode(this));
 							GameMode->enemyIsAttacking = false;
 						}, 0.8, false);
-					//if (HitResult.Actor->IsA<ACharacter>())
-					//Debug("coll");
 				}
 
 			}
 		}
-		
-		
 		
 	}
 	else
@@ -161,7 +144,6 @@ void AAINPC::Tick(float DeltaTime)
 	{
 		DynamicMaterial->SetScalarParameterValue(TEXT("Blend"), hitColor);
 		hitColor =1;
-		Debug("mat = %f", hitColor);
 	}
 	else if (hitColor > 0)
 	{
@@ -169,7 +151,6 @@ void AAINPC::Tick(float DeltaTime)
 		hitColor -= 0.01f;
 		if (hitColor < 0.01f && gotHit)
 			hitColor = 0.01f;
-		Debug("mat = %f", hitColor);
 	}
 	if (Health <= 0 && !isDead)
 	{
